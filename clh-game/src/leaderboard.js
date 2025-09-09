@@ -1,3 +1,4 @@
+import app from "./app.js";
 import config from "./config.js";
 
 const STORAGE_TYPES = {
@@ -153,9 +154,41 @@ function formatLeaders(leaders) {
     };
 }
 
+async function validateNickname(name) {
+    name = name.trim();
+    let isProfanity = await checkNicknameProfanity(name);
+    if (name && name !== ">" && !isProfanity) {
+        app.playerName = name.substring(0, config.MAX_LEADER_NAME_LENGTH);
+        app.allowTyping = false;
+        app.cmd = "";
+        
+        return true;
+    }
+    app.cmd += "\nPlease enter a valid name:\n";
+    return false;
+}
+
+async function checkNicknameProfanity(name) {
+    try {
+    const response = await fetch(`${config.BACKEND_URL}/leaderboard/check-nickname-profanity`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name })
+    }).then(res => res.json());
+    return response.isProfanity;
+
+    } catch (error) {
+        console.error("Error checking nickname profanity:", error);
+        return false; // In case of error, assume no profanity to avoid blocking user
+    }
+}
+
 export default {
     init,
     record,
     get,
-    saveLeaderboard
+    saveLeaderboard,
+    validateNickname
 };

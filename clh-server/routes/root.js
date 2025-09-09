@@ -2,6 +2,7 @@
 
 const fs = require('fs/promises');
 const path = require('path');
+const { default: badWords } = require('../utils/badwords');
 
 module.exports = async function (fastify, opts) {
   fastify.post('/leaderboard/export', async function (request, reply) {
@@ -109,5 +110,20 @@ module.exports = async function (fastify, opts) {
         message: error.message
       });
     }
+  });
+
+  fastify.post('/leaderboard/check-nickname-profanity', async function (request, reply) {
+    const { body } = request;
+    const name = body.name || '';
+
+    if (name.trim().length === 0) {
+      return reply.code(400).send({ error: 'Name is required' });
+    }
+
+    // check from badwords.js file
+    const isProfanity = badWords.includes(name.toLowerCase());
+    return {
+      isProfanity
+    };
   });
 }

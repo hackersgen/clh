@@ -123,6 +123,41 @@ const states = {
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
             controls.enabled = false;
 
+            // play golden command music
+            sfx.play.play("golden");
+
+            await tweenCamera(camera, {
+                rotation: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                position: {
+                    x: -4.336209717881005,
+                    y: 39.566049707444186,
+                    z: 155.4934617372831
+                }
+            });
+
+            app.allowTyping = false;
+            app.cmd = "Enter your name to begin:\n";
+            await sleep(2500);
+            app.cmd += "> ";
+            app.allowTyping = true;
+
+
+            let nameAccepted = false;
+            while (!nameAccepted) {
+                app.onResult = async result => {
+                    let name = result.cmd.trim();
+                    nameAccepted = await leaderboard.validateNickname(name);
+                };
+                // Wait for name to be accepted
+                while (!nameAccepted) {
+                    await sleep(100);
+                }
+            }
+
             // log play count
             let playCount = localStorage.getItem("clhPlayCount");
             playCount++;
@@ -146,22 +181,6 @@ const states = {
             app.cmd = "\nEntering game...";
 
             app.goldenCommands = app.pickGoldenCommands();
-
-            // play golden command music
-            sfx.play.play("golden");
-
-            await tweenCamera(camera, {
-                rotation: {
-                    x: 0,
-                    y: 0,
-                    z: 0
-                },
-                position: {
-                    x: -4.336209717881005,
-                    y: 39.566049707444186,
-                    z: 155.4934617372831
-                }
-            });
 
             app.cmd = `You have ${config.GAME_DURATION /
             1000} seconds to enter ANY
@@ -432,43 +451,31 @@ Press Enter to continue.`;
                 console.log("New high score", app.score);
             }
 
-            app.cmd += "\nEnter your name";
+            app.cmd += "\nCongratulations, " + app.playerName + "!";
+            app.cmd += "\nPress Enter to continue.";
+    
+            let tribe = deriveTribe();
 
-            await sleep(app.typingTime(app.cmd));
+            // this is an async function but we don't `await` it
+            // because it's totally fine for it to run in the
+            // background
+            leaderboard.record({
+                name: app.playerName,
+                score: app.score,
+                tribe: tribe
+            });
 
-            app.allowTyping = true;
-            app.cmd += "\n";
+            await sleep(200);
+            await leaderboard.saveLeaderboard()
+            // when any key is pressed, go to leaderboard
+            app.onKeyPress = async ev => {
+                ev.preventDefault();
+                ev.stopPropagation();
 
-            app.onResult = async result => {
-                if (result.cmd.length > 0 && result.cmd !== ">") {
-                    app.onResult = _.noop();
-                    app.allowTyping = false;
-                    let name = result.cmd;
-                    let tribe = deriveTribe();
-
-                    // truncate name to max size
-                    name = name.substring(0, config.MAX_LEADER_NAME_LENGTH);
-
-                    // Store score and name pair in localStorage
-                    console.log("leader name: ", result.cmd);
-
-                    // this is an async function but we don't `await` it
-                    // because it's totally fine for it to run in the
-                    // background
-                    leaderboard.record({
-                        name: name,
-                        score: app.score,
-                        tribe: tribe
-                    });
-
+                if (ev.keyCode === keyCodes.enter) {
+                    app.onKeyPress = _.noop;
                     app.cmd = "";
-
-                    await sleep(200);
                     app.toState(STATES.leaderboard);
-                    await leaderboard.saveLeaderboard()
-                } else {
-                    app.cmd += "\nEnter your name\n";
-
                 }
             };
         }

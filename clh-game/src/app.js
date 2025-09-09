@@ -78,7 +78,8 @@ const app = new Vue({
             recentValidCharacters: 0,
             totalValidCharacters: 0,
             totalValidCommands: 0
-        }
+        },
+        playerName: "",
     },
     watch: {
         displayCmd: function(val, oldVal) {
