@@ -122,8 +122,6 @@ module.exports = async function (fastify, opts) {
 
     // check from badwords.js file
     const isProfanity = badWords.includes(name.toLowerCase());
-    return {
-      isProfanity
-    };
+    return reply.code(200).send({ isProfanity });
   });
 }

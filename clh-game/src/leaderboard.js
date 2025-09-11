@@ -126,6 +126,11 @@ async function saveLeaderboard() {
             body: JSON.stringify(jsonData)
         });
 
+        if (!response.ok && response.status === 429) {
+            console.warn("Rate limit exceeded for saving leaderboard");
+            return;
+        }
+
         const result = await response.json();
         console.log("Leaderboard data exported successfully:", result);
     } catch (error) {
@@ -156,7 +161,13 @@ function formatLeaders(leaders) {
 
 async function validateNickname(name) {
     name = name.trim();
-    let isProfanity = await checkNicknameProfanity(name);
+    const { isProfanity, error } = await checkNicknameProfanity(name);
+    if (error) {
+        console.error("Error during profanity check:", error);
+        app.cmd += `\nError checking name:\n${error}\n`;
+        return false;
+    }
+
     if (name && name !== ">" && !isProfanity) {
         app.playerName = name.substring(0, config.MAX_LEADER_NAME_LENGTH);
         app.allowTyping = false;
@@ -170,18 +181,23 @@ async function validateNickname(name) {
 
 async function checkNicknameProfanity(name) {
     try {
-    const response = await fetch(`${config.BACKEND_URL}/leaderboard/check-nickname-profanity`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name })
-    }).then(res => res.json());
-    return response.isProfanity;
+        const response = await fetch(`${config.BACKEND_URL}/leaderboard/check-nickname-profanity`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name })
+        });
 
+        const responseData = await response.json();
+
+        if (response.status === 429) {
+            console.warn("Rate limit exceeded for profanity check");
+            return { isProfanity: true, error: responseData.message || "Rate limit exceeded" };
+        }
+
+        return { isProfanity: !!responseData.isProfanity, error: null };
     } catch (error) {
         console.error("Error checking nickname profanity:", error);
-        return false; // In case of error, assume no profanity to avoid blocking user
+        return { isProfanity: true, error: error.message };
     }
 }
 
