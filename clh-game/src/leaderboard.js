@@ -206,7 +206,7 @@ function formatLeaders(leaders) {
     const topHiScore = _.max(hiScores);
     const isEmpty = leaders.length === 0;
     return {
-        leaders,
+        leaders: leaders.slice(0, 10),
         hiScores,
         topHiScore,
         lowestHiScore,

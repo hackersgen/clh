@@ -445,13 +445,20 @@ Press Enter to continue.`;
 
             if (app.score > leaders.topHiScore) {
                 app.cmd = "Top Score!\n";
+                app.cmd += "\nCongratulations, " + app.playerName + "!";
                 console.log("New top score!", app.score);
-            } else {
+            } else if (app.score > leaders.lowestHiScore) {
                 app.cmd = "New High Score!\n";
+                app.cmd += "\nCongratulations, " + app.playerName + "!";
                 console.log("New high score", app.score);
             }
 
-            app.cmd += "\nCongratulations, " + app.playerName + "!";
+            if (leaders.isEmpty) {
+                app.cmd += "\nBe the first on the leaderboard!";
+            } else {
+                app.cmd += `\nYour score of ${app.score}\ndid not make the top ${leaders.hiScores.length}\n`;
+            }
+            
             app.cmd += "\nPress Enter to continue.";
     
             let tribe = deriveTribe();
