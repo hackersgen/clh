@@ -4,6 +4,8 @@ const fs = require('fs/promises');
 const path = require('path');
 const { default: badWords } = require('../utils/badwords');
 
+const MAX_LEADERS = 1000;
+
 module.exports = async function (fastify, opts) {
   fastify.post('/leaderboard/export', async function (request, reply) {
     const { body } = request
@@ -123,5 +125,92 @@ module.exports = async function (fastify, opts) {
     // check from badwords.js file
     const isProfanity = badWords.includes(name.toLowerCase());
     return reply.code(200).send({ isProfanity });
+  });
+
+  fastify.post('/leaderboard/entry', async function (request, reply) {
+    const { leader } = request.body;
+  
+    if (!leader || typeof leader !== 'object') {
+      return reply.code(400).send({ error: 'No leader data provided' });
+    }
+  
+    const outputDir = path.join(__dirname, '../leaderboard/');
+    await fs.mkdir(outputDir, { recursive: true });
+  
+    const filename = 'leaderboard.csv';
+    const filepath = path.join(outputDir, filename);
+  
+    const headers = Object.keys(leader).join(',');
+    const row = Object.values(leader).map(value => {
+      if (typeof value === 'string' && value.includes(',')) {
+        return `"${value}"`;
+      }
+      return value;
+    }).join(',');
+  
+    let fileExists = false;
+    try {
+      await fs.access(filepath);
+      fileExists = true;
+    } catch (err) {}
+  
+    if (fileExists) {
+      const existingContent = await fs.readFile(filepath, 'utf8');
+      const existingLines = existingContent.split('\n');
+      const existingHeaders = existingLines[0];
+  
+      if (existingHeaders !== headers) {
+        return reply.code(400).send({
+          error: 'Schema mismatch',
+          message: 'The schema of the new entry does not match the existing file'
+        });
+      }
+
+      // Check if max entries reached (excluding header)
+      if (existingLines.length - 1 >= MAX_LEADERS) {
+        return reply.code(400).send({
+          error: 'Maximum number of entries reached',
+          message: `Cannot add more than ${MAX_LEADERS} leaderboard entries`
+        });
+      }
+  
+      await fs.appendFile(filepath, '\n' + row);
+      return reply.code(200).send({
+        success: true,
+        message: 'Entry appended successfully'
+      });
+    } else {
+      await fs.writeFile(filepath, [headers, row].join('\n'));
+      return reply.code(200).send({
+        success: true,
+        message: 'File created and entry added'
+      });
+    }
+  });
+
+  fastify.get('/leaderboard', async function (request, reply) {
+    const outputDir = path.join(__dirname, '../leaderboard/');
+    const filename = 'leaderboard.csv';
+    const filepath = path.join(outputDir, filename);
+
+    try {
+      await fs.access(filepath);
+    } catch (err) {
+      return reply.code(404).send({ error: 'Leaderboard not found' });
+    }
+
+    const content = await fs.readFile(filepath, 'utf8');
+    const lines = content.split('\n').filter(line => line.trim().length > 0);
+    const headers = lines[0].split(',');
+    const data = lines.slice(1).map(line => {
+      const values = line.split(',');
+      const record = {};
+      headers.forEach((header, index) => {
+        record[header] = values[index];
+      });
+      return record;
+    });
+
+    return reply.code(200).send({ leaders: data });
   });
 }

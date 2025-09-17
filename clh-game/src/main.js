@@ -466,7 +466,6 @@ Press Enter to continue.`;
             });
 
             await sleep(200);
-            await leaderboard.saveLeaderboard()
             // when any key is pressed, go to leaderboard
             app.onKeyPress = async ev => {
                 ev.preventDefault();

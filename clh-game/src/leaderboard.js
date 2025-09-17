@@ -3,11 +3,12 @@ import config from "./config.js";
 
 const STORAGE_TYPES = {
     local: 0,
-    parse: 1
+    parse: 1,
+    server: 2
 };
 
 const state = {
-    storage: STORAGE_TYPES.local,
+    storage: STORAGE_TYPES.server,
     name: config.LEADERBOARD_NAMESPACE_DEFAULT
 };
 
@@ -38,10 +39,39 @@ function init() {
 }
 
 async function record({ name, score, tribe }) {
-    if (state.storage == STORAGE_TYPES.local) {
-        return await recordLocal({ name, score, tribe });
-    } else if (state.storage == STORAGE_TYPES.parse) {
-        return await recordParse({ name, score, tribe });
+    switch (state.storage) {
+        case STORAGE_TYPES.local:
+            await recordLocal({ name, score, tribe });
+            break;
+        case STORAGE_TYPES.parse:
+            await recordParse({ name, score, tribe });
+            break;
+        case STORAGE_TYPES.server:
+            await recordServer({ name, score, tribe });
+            break;
+        default:
+            console.error("Unknown storage type:", state.storage);
+    }
+}
+
+async function recordServer({ name, score, tribe }) {
+    console.log(`recording leaderboard entry on server`, { name, score, tribe });
+
+    try {
+        const response = await fetch(`${config.BACKEND_URL}/leaderboard/entry`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ leader: { name, score, tribe } })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with status ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log("Leaderboard entry recorded successfully:", result);
+    } catch (error) {
+        console.error("Error recording leaderboard entry on server:", error);
     }
 }
 
@@ -77,10 +107,16 @@ async function recordParse({ name, score, tribe }) {
 }
 
 async function get() {
-    if (state.storage == STORAGE_TYPES.local) {
-        return await getLocal();
-    } else if (state.storage == STORAGE_TYPES.parse) {
-        return await getParse();
+    switch (state.storage) {
+        case STORAGE_TYPES.local:
+            return await getLocal();
+        case STORAGE_TYPES.parse:
+            return await getParse();
+        case STORAGE_TYPES.server:
+            return await getFromServer();
+        default:
+            console.error("Unknown storage type:", state.storage);
+            return { leaders: [] };
     }
 }
 
@@ -88,6 +124,25 @@ async function getLocal() {
     // First get the current scores from localStorage
     let leaders = JSON.parse(localStorage.getItem(state.name));
     return formatLeaders(leaders);
+}
+
+async function getFromServer() {
+    try {
+        const response = await fetch(`${config.BACKEND_URL}/leaderboard`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        return formatLeaders(data.leaders || []);
+    } catch (error) {
+        console.error("Error fetching leaderboard from server:", error);
+        return formatLeaders([]);
+    }
 }
 
 async function getParse() {
