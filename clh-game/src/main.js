@@ -28,6 +28,7 @@ let firePlane;
 let allowFire = false;
 
 let leaders;
+const MAX_LEADERS = 1000;
 
 // FPS tracking
 let stats = new Stats();
@@ -138,6 +139,30 @@ const states = {
                     z: 155.4934617372831
                 }
             });
+
+            // check if there is not already more than 1000 leaders
+            leaders = await leaderboard.get();
+            if (leaders.totalEntries >= MAX_LEADERS) {
+                app.allowTyping = false;
+                app.cmd += "\nThe leaderboard is full!\nPlease wait until the next reset.\n\nPress Enter to return.";
+                await sleep(app.typingTime(app.cmd));
+                app.cmd += "\n> ";
+                app.allowTyping = true;
+
+                // when any key is pressed, go back to the title screen
+                app.onKeyPress = async ev => {
+                    // don't let any other event handlers run
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    if (ev.keyCode === keyCodes.enter) {
+                        app.onKeyPress = _.noop;
+                        app.cmd = "";
+                        app.toState(STATES.title);
+                    }
+                };
+
+            } else {
 
             app.allowTyping = false;
             app.cmd = "Enter your name to begin:\n";
@@ -366,6 +391,7 @@ Press Enter to continue.`;
                 app.toState(STATES.score);
             }
         }
+    }
     },
     [STATES.score]: {
         enter: async function() {
@@ -443,21 +469,23 @@ Press Enter to continue.`;
                 });
             }
 
-            if (app.score > leaders.topHiScore) {
-                app.cmd = "Top Score!\n";
-                app.cmd += "\nCongratulations, " + app.playerName + "!";
-                console.log("New top score!", app.score);
-            } else if (app.score > leaders.lowestHiScore) {
-                app.cmd = "New High Score!\n";
-                app.cmd += "\nCongratulations, " + app.playerName + "!";
-                console.log("New high score", app.score);
+            if (leaders.isEmpty) {
+                app.cmd += "\nBe the first\non the leaderboard!";
+            } else {   
+                if (app.score > leaders.topHiScore) {
+                    app.cmd = "Top Score!\n";
+                    app.cmd += "\nCongratulations, " + app.playerName + "!";
+                    console.log("New top score!", app.score);
+                } else if (app.score > leaders.lowestHiScore) {
+                    app.cmd = "New High Score!\n";
+                    app.cmd += "\nCongratulations, " + app.playerName + "!";
+                    console.log("New high score", app.score);
+                } else {
+                    app.cmd += `\nYour score of ${app.score}\ndid not make the high scores\n`;
+                }
             }
 
-            if (leaders.isEmpty) {
-                app.cmd += "\nBe the first on the leaderboard!";
-            } else {
-                app.cmd += `\nYour score of ${app.score}\ndid not make the top ${leaders.hiScores.length}\n`;
-            }
+            
             
             app.cmd += "\nPress Enter to continue.";
     

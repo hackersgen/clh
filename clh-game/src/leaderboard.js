@@ -210,7 +210,8 @@ function formatLeaders(leaders) {
         hiScores,
         topHiScore,
         lowestHiScore,
-        isEmpty
+        isEmpty,
+        totalEntries: leaders.length
     };
 }
 
