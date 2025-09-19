@@ -3,6 +3,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const { default: badWords } = require('../utils/badwords');
+const { SafeWrite } = require('../utils/common');
 
 const MAX_LEADERS = 1000;
 
@@ -174,7 +175,7 @@ module.exports = async function (fastify, opts) {
         });
       }
   
-      await fs.appendFile(filepath, '\n' + row);
+      await SafeWrite(filepath, '\n' + row);
       return reply.code(200).send({
         success: true,
         message: 'Entry appended successfully'
