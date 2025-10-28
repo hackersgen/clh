@@ -43,3 +43,13 @@ cd /root/clh-sorint
 ```
 docker compose up -d
 ```
+
+## Deployment to Docker Hub
+
+It requires a Docker Hub Personal Access Token with write permissions. You can create one here:
+
+[https://app.docker.com/accounts/hackersgen/settings/personal-access-tokens](https://app.docker.com/accounts/hackersgen/settings/personal-access-tokens)
+
+Then, set it as a GitHub secret named `DOCKERHUB_TOKEN` in your repository settings.
+
+Every time you push to the `master` branch, GitHub Actions will build and push the Docker image to Docker Hub automatically.
