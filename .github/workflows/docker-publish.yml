@@ -30,8 +30,8 @@ jobs:
           context: ./clh-game
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:${{ github.ref_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/clh-game${{ startsWith(github.ref, 'refs/heads/master') && ':latest' || '' }}
 
       - name: Build and push server image
         uses: docker/build-push-action@v5
@@ -39,5 +39,5 @@ jobs:
           context: ./clh-server
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.ref_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/clh-server${{ startsWith(github.ref, 'refs/heads/master') && ':latest' || '' }}
