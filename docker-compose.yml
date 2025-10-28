@@ -21,8 +21,11 @@ services:
     networks:
       - clh-network
     volumes:
-      - /root/leaderboard:/app/leaderboard
+      - clh-server-data:/app/leaderboard
 
 networks:
   clh-network:
     driver: bridge
+
+volumes:
+  clh-server-data:
