@@ -42,4 +42,4 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.sha }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.ref_name }
+            ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.ref_name }}
