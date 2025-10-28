@@ -1,69 +1,94 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title>HG Command Line Heroes</title>
-        <link rel="stylesheet" href="assets/styles.css">
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    </head>
-    <body>
-        <canvas id="game-canvas"></canvas>
-        <img id="test-pattern" src="assets/clh-thumb.png">
-        <div id="game">
-            <div id="intro" v-bind:class="{ show: state == 'loading' }">
-                <img class="logo" src="./assets/clh-logo-white.svg">
-                <span>
-                    <span v-if="isMobile">Apologies, mobile is not supported :(</span>
-                    <span v-else>DOWNLOADING</span>
-                    <span v-if="!isMobile" class="cursor">█</span>
-                </span>
-            </div>
-            <div v-bind:class="{ show: showTitle }" id="title-screen">
-                <img v-bind:class="{ show: showTitle }" id="hg-logo" src="./assets/images/hackersgen-logo.png">
-                <img v-bind:class="{ show: showTitle }" id="clh-logo" src="./assets/clh-logo-white.svg">
-                <p v-bind:class="{ show: showTitle }" id="instructions">
-                    Test your command line skills!<br>
-                    You have {{parseInt(gameDuration/1000)}} seconds to type commands from:
-                </p>
-                <p v-bind:class="{ show: showTitle }" id="langs">
-                    BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML5 &middot; SQL
-                </p>
-                <p v-bind:class="{ show: showTitle }" id="tagline">
-                    Set the terminal on fire! Type "PLAY" to begin or "LEADERBOARD" to see your highscores!
-                </p>
-                <p v-bind:class="{ show: showTitle }" id="dev-listen">
-                    Forked and customized with &#9829; by the <a href="https://github.com/hackersgen">HackersGen Team</a> from the original <a href="https://github.com/CommandLineHeroes/clh-bash">RedHat game</a>
-		        </p>
-                <p v-bind:class="{ show: showTitle }" id="soundtrack-listen">
-                    Soundtrack: <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a> by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a>
-		        </p>
-                <p v-bind:class="{ show: showTitle }" id="dev-credits">
-                    Forked and customized with &#9829; by the <a href="https://github.com/hackersgen">HackersGen Team</a> from the original <a href="https://github.com/CommandLineHeroes/clh-bash">RedHat game</a>
-                </p>
-                <p v-bind:class="{ show: showTitle }" id="soundtrack-credits">
-                    Soundtrack: <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a> by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a>
-                </p>
-            </div>
-            <textarea
-                v-model="cmd"
-                v-on:keydown="handleKeypress"
-                v-on:keyup="handleKeyup"
-                v-on:paste="handlePaste"
-                ref="cmd"
-                spellcheck=false
-                type="text"
-                name="cmd"
-                id="cmd">
-            </textarea>
-        </div>
-        <script src="node_modules/howler/dist/howler.min.js"></script>
-        <script src="node_modules/ismobilejs/dist/isMobile.min.js"></script>
-        <script src="node_modules/three/build/three.min.js"></script>
-        <script src="node_modules/three/examples/js/libs/stats.min.js"></script>
-        <script src="node_modules/vue/dist/vue.min.js"></script>
-        <script src="node_modules/lodash/lodash.min.js"></script>
-        <script src="node_modules/@tweenjs/tween.js/src/Tween.js"></script>
-        <script type="module" src="src/main.js"></script>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>HG CLH</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  </head>
+  <body>
+    <canvas id="game-canvas"></canvas>
+    <img id="test-pattern" src="assets/clh-thumb.png" />
+    <div id="game">
+      <div id="intro" v-bind:class="{ show: state == 'loading' }">
+        <img class="logo" src="./assets/clh-logo-white.svg" />
+        <span>
+          <span v-if="isMobile">Apologies, mobile is not supported :(</span>
+          <span v-else>DOWNLOADING</span>
+          <span v-if="!isMobile" class="cursor">█</span>
+        </span>
+      </div>
+      <div v-bind:class="{ show: showTitle }" id="title-screen">
+        <img
+          v-bind:class="{ show: showTitle }"
+          id="hg-logo"
+          src="./assets/images/hackersgen-logo.png"
+        />
+        <img
+          v-bind:class="{ show: showTitle }"
+          id="clh-logo"
+          src="./assets/clh-logo-white.svg"
+        />
+        <p v-bind:class="{ show: showTitle }" id="instructions">
+          Test your command line skills!<br />
+          You have {{parseInt(gameDuration/1000)}} seconds to type commands
+          from:
+        </p>
+        <p v-bind:class="{ show: showTitle }" id="langs">
+          BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML5 &middot; SQL
+        </p>
+        <p v-bind:class="{ show: showTitle }" id="tagline">
+          Set the terminal on fire! Type "PLAY" to begin or "LEADERBOARD" to see
+          your highscores!
+        </p>
+        <p v-bind:class="{ show: showTitle }" id="dev-listen">
+          Forked and customized with &#9829; by the
+          <a href="https://github.com/hackersgen">HackersGen Team</a> from the
+          original
+          <a href="https://github.com/CommandLineHeroes/clh-bash"
+            >RedHat game</a
+          >
+        </p>
+        <p v-bind:class="{ show: showTitle }" id="soundtrack-listen">
+          Soundtrack:
+          <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a>
+          by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a>
+        </p>
+        <p v-bind:class="{ show: showTitle }" id="dev-credits">
+          Forked and customized with &#9829; by the
+          <a href="https://github.com/hackersgen">HackersGen Team</a> from the
+          original
+          <a href="https://github.com/CommandLineHeroes/clh-bash"
+            >RedHat game</a
+          >
+        </p>
+        <p v-bind:class="{ show: showTitle }" id="soundtrack-credits">
+          Soundtrack:
+          <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a>
+          by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a>
+        </p>
+      </div>
+      <textarea
+        v-model="cmd"
+        v-on:keydown="handleKeypress"
+        v-on:keyup="handleKeyup"
+        v-on:paste="handlePaste"
+        ref="cmd"
+        spellcheck="false"
+        type="text"
+        name="cmd"
+        id="cmd"
+      >
+      </textarea>
+    </div>
+    <script src="node_modules/howler/dist/howler.min.js"></script>
+    <script src="node_modules/ismobilejs/dist/isMobile.min.js"></script>
+    <script src="node_modules/three/build/three.min.js"></script>
+    <script src="node_modules/three/examples/js/libs/stats.min.js"></script>
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/lodash/lodash.min.js"></script>
+    <script src="node_modules/@tweenjs/tween.js/src/Tween.js"></script>
+    <script type="module" src="src/main.js"></script>
+  </body>
 </html>
