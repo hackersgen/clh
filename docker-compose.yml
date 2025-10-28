@@ -2,7 +2,6 @@ services:
   clh-game:
     build:
       context: ./clh-game
-      dockerfile: ../Dockerfile
     container_name: clh-game
     ports:
       - "3000:3000"
