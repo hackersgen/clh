@@ -104,21 +104,27 @@ textarea#cmd {
   opacity: 0;
   transition: opacity 100ms linear;
   position: absolute;
-  top: 20vh;
+  top: 10vh;
   left: 10vw;
   width: 40vw;
   height: 70vh;
   display: grid;
 
-  font-size: 1.8rem;
+  font-size: 1.5em;
   font-weight: bold;
 }
 #title-screen.show {
   opacity: 1;
 }
 
-#credits {
-  font-size: 0.7em;
+#dev-credits {
+  font-size: 0.8em;
+  color: var(--clh-white);
+  display: none;
+}
+
+#soundtrack-credits {
+  font-size: 0.8em;
   color: var(--clh-white);
   display: none;
 }
@@ -158,16 +164,33 @@ textarea#cmd {
 /* individual elements of the title screen */
 #langs {
   text-align: center;
-  font-size: 0.8em;
   color: var(--clh-yellow-light);
   font-family: overpass-mono;
 }
+
 #langs .sep {
   color: var(--clh-white);
 }
-#listen {
+
+#dev-listen {
   font-size: 0.7em;
   color: var(--clh-white);
+}
+
+#soundtrack-listen {
+  font-size: 0.7em;
+  color: var(--clh-white);
+}
+
+#clh-logo {
+  width: 70%;
+  margin: auto;
+}
+
+#hg-logo {
+  width: 70%;
+  margin: auto;
+  margin-bottom: 20px;
 }
 
 #intro {
@@ -190,12 +213,15 @@ textarea#cmd {
   padding-right: 30px;
   padding-left: 30px;
 }
+
 #intro .cursor {
   animation: blink 666ms steps(2, start) infinite;
 }
+
 #intro.show {
   opacity: 1;
 }
+
 #intro .logo {
   display: block;
   clear: both;
