@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - "v*"
 
 jobs:
   build-and-push:
@@ -30,6 +32,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:${{ github.ref_name }}
 
       - name: Build and push server image
         uses: docker/build-push-action@v5
@@ -39,3 +42,4 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.ref_name }
