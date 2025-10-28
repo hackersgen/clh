@@ -31,7 +31,6 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:${{ github.sha }}
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-game:${{ github.ref_name }}
 
       - name: Build and push server image
@@ -41,5 +40,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.sha }}
             ${{ secrets.DOCKERHUB_USERNAME }}/clh-server:${{ github.ref_name }}
