@@ -49,12 +49,13 @@
                 v-model="cmd"
                 v-on:keydown="handleKeypress"
                 v-on:keyup="handleKeyup"
-	v-on:paste="handlePaste"
-	ref="cmd"
+                v-on:paste="handlePaste"
+                ref="cmd"
                 spellcheck=false
                 type="text"
                 name="cmd"
-                id="cmd"></textarea>
+                id="cmd">
+            </textarea>
         </div>
         <script src="node_modules/howler/dist/howler.min.js"></script>
         <script src="node_modules/ismobilejs/dist/isMobile.min.js"></script>
