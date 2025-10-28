@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Sorint.lab Command Line Heroes!</title>
+        <title>HG Command Line Heroes</title>
         <link rel="stylesheet" href="assets/styles.css">
     </head>
     <body>
@@ -20,22 +20,23 @@
             </div>
             <div v-bind:class="{ show: showTitle }" id="title-screen">
                 <img v-bind:class="{ show: showTitle }" id="clh-logo" src="./assets/clh-logo-white.svg">
+                <img v-bind:class="{ show: showTitle }" id="hg-logo" src="./assets/images/hackersgen-logo.png">
                 <p v-bind:class="{ show: showTitle }" id="instructions">
                     Test your command line skills!<br>
                     You have {{parseInt(gameDuration/1000)}} seconds to type commands from:
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="langs">
-                    BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML5 &middot; SQL &middot; POWERSHELL
+                    BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML5 &middot; SQL
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="tagline">
                     Set the terminal on fire! Type "PLAY" to begin or "LEADERBOARD" to see your highscores!
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="listen">
-                    Forked and customized with &#9829; by <a href="https://github.com/mossicrue">Simone Mossi</a> from the original <a href="https://github.com/CommandLineHeroes/clh-bash">RedHat game</a><br>
+                    Forked and customized with &#9829; by the <a href="https://github.com/hackersgen">HackersGen Team</a> from the original <a href="https://github.com/CommandLineHeroes/clh-bash">RedHat game</a><br>
                     Soundtrack: <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a> by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a>.<br><br>
 		        </p>
                 <p v-bind:class="{ show: showTitle }" id="credits">
-                    Forked and customized with &#9829; by <a href="https://github.com/mossicrue">Simone Mossi</a> from the original <a href="https://github.com/CommandLineHeroes/clh-bash">RedHat game</a><br>
+                    Forked and customized with &#9829; by the <a href="https://github.com/hackersgen">HackersGen Team</a> from the original <a href="https://github.com/CommandLineHeroes/clh-bash">RedHat game</a><br>
                     Soundtrack: <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a> by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a>.<br><br>
                 </p>
             </div>
