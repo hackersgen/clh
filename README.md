@@ -1,5 +1,7 @@
 # Command Line Heroes
 
+[![Release](https://github.com/hackersgen/clh/actions/workflows/main.yml/badge.svg)](https://github.com/hackersgen/clh/actions/workflows/main.yml)
+
 Command Line Heroes for HackersGen website.
 
 Unofficial fork of the [Command Line Heroes](https://github.com/CommandLineHeroes/clh-bash) game repository.
