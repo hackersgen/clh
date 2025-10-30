@@ -53,3 +53,59 @@ It requires a Docker Hub Personal Access Token with write permissions. You can c
 Then, set it as a GitHub secret named `DOCKERHUB_TOKEN` in your repository settings.
 
 Every time you push to the `master` branch, GitHub Actions will build and push the Docker image to Docker Hub automatically.
+
+## Available Languages
+
+Original languages already present in the original RedHat game
+
+- Bash
+- HTML
+- JavaScript
+- Python
+
+Custom languages added in this fork:
+
+- SQL
+- CSS
+- Go
+
+### Original Languages
+
+The original languages are left intact as in the original repository.
+
+### SQL
+
+The sources for SQL commands and keywords used are:
+
+- w3 and w3school pages like [this](https://www.w3schools.com/sql/sql_ref_keywords.asp)
+- PostgreSQL documentation [appendix](https://www.postgresql.org/docs/current/sql-keywords-appendix.html) by looking for standard keyworkd.
+
+See files `from-sql-base.txt` and `from-postgres-doc.txt` for all the available command.
+
+## How to add a new language
+
+Note: all commands to be run from this directory, `assets/cmds/`.
+
+1. Create the <language>.js file that will contains the new languages command and keyword.
+
+2. Copy this javascript snippet and paste in the file previously created.
+
+```js
+export default {
+  name: "NEW_LANGUAGE",
+  commonCmds: ["command2", "command4"],
+  cmds: ["command1", "command2", "command3", "command4"],
+};
+```
+
+3. Replace the value of `name:` key with the new language name
+
+4. Replace the sample strings with all the commands, keywords etc... as an the `cmds:` dictionary
+
+5. Replace the sample strings with all the common commands, keywords etc... as an the `commonCmds:` dictionary
+
+6. Adapt the code in the right section, to do so find the "Add other languages section" comments in the following files:
+
+- src/cmnds.js
+- src/app.js
+- src/main.js
