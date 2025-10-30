@@ -79,7 +79,7 @@ const states = {
 
       app.cmd = "LOADING...";
       app.cmd += "\n\nTESTING ROUTINE\nINITIATED.";
-      app.cmd += "\n\nType PLAY";
+      app.cmd += "\n\nType PLAY OR LEADERBOARD to continue.";
 
       await camTween;
 
@@ -111,7 +111,7 @@ const states = {
           await sleep(200);
           app.toState(STATES.leaderboard);
         } else {
-          app.cmd += "\nType PLAY\n";
+          app.cmd += "\nType PLAY OR LEADERBOARD:\n";
         }
       };
 
