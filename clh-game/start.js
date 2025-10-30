@@ -21,7 +21,7 @@ app.get(basePath, (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.get("/env.js", (req, res) => {
+app.get(basePath + "env.js", (req, res) => {
   res.type("application/javascript");
   res.send(`
     window.__ENV__ = {
