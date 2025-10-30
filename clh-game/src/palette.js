@@ -1,10 +1,10 @@
 const palette = {};
 
 function cssVar(prop) {
-    return window
-        .getComputedStyle(document.body)
-        .getPropertyValue(prop)
-        .trim();
+  return window
+    .getComputedStyle(document.body)
+    .getPropertyValue(prop)
+    .trim();
 }
 
 palette.white = cssVar("--clh-white");
