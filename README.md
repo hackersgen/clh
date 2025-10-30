@@ -1,6 +1,9 @@
 # Command Line Heroes
 
 [![Release](https://github.com/hackersgen/clh/actions/workflows/main.yml/badge.svg)](https://github.com/hackersgen/clh/actions/workflows/main.yml)
+[![clh-game](https://img.shields.io/badge/Docker%20Hub-game-blue?logo=docker)](https://hub.docker.com/r/hackersgen/clh-game)
+[![clh-server](https://img.shields.io/badge/Docker%20Hub-server-blue?logo=docker)](https://hub.docker.com/r/hackersgen/clh-server)
+![GitHub Tag](https://img.shields.io/github/v/tag/hackersgen/clh)
 
 Command Line Heroes for HackersGen website.
 
