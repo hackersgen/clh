@@ -13,48 +13,31 @@ It's a speed game where you make point every time you type a commands or keyword
 - javascript
 - html
 - SQL
-- ansible module
-- microsoft / powershell
-- cisco
 
-## Installing
+## How to run locally
 
-1. Install docker and docker compose on the desktop / laptop you want to play
-
-2. Pull this repository to /root directory
+It is possible to run each service independently with `npm start` inside each folder, or run all the services together with Docker Compose.
 
 ```bash
-cd /root/
-git clone https://github.com/mossicrue/clh-sorint.git
-```
+cd clh-game
+npm start
 
-3. Create the /root/leaderboard directory
+# or
 
-```bash
-mkdir /root/leaderboard
-```
-
-4. Go to the repository directory
-
-```bash
-cd /root/clh-sorint
-```
-
-5. Start the game
-
-```
-docker compose up -d
+docker-compose up
 ```
 
 ## Deployment to Docker Hub
 
-It requires a Docker Hub Personal Access Token with write permissions. You can create one here:
+Every time a push is done to the `master` branch, GitHub Actions will build and push the Docker image to Docker Hub automatically.
+
+It requires a Docker Hub Personal Access Token with write permissions.
+
+Login in Docker Hub as the HackersGen user and create a new Personal Access Token here:
 
 [https://app.docker.com/accounts/hackersgen/settings/personal-access-tokens](https://app.docker.com/accounts/hackersgen/settings/personal-access-tokens)
 
-Then, set it as a GitHub secret named `DOCKERHUB_TOKEN` in your repository settings.
-
-Every time you push to the `master` branch, GitHub Actions will build and push the Docker image to Docker Hub automatically.
+Then, set it as a GitHub secret named `DOCKERHUB_TOKEN` inside the repository settings.
 
 ## Available Languages
 
