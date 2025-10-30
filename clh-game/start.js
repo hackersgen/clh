@@ -13,14 +13,17 @@ const basePath = normalizedBase.endsWith("/")
   ? normalizedBase
   : `${normalizedBase}/`;
 
-console.log(`🧭 Serving app under base path: '${basePath}'`);
-
 app.use(basePath, express.static(path.join(__dirname, ".")));
 
 app.get(basePath, (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ App running at http://localhost:${PORT}${basePath}`);
-});
+app
+  .listen(PORT)
+  .on("listening", () => {
+    console.log(`🚀 App running at http://localhost:${PORT}${basePath}`);
+  })
+  .on("error", err => {
+    console.error("❌ Server error:", err);
+  });
