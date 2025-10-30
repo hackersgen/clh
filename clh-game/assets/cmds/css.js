@@ -389,7 +389,6 @@ export default {
     "justify-self",
     "kHz",
     "keyframes",
-    "L",
     "lab",
     "lang",
     "last-child",

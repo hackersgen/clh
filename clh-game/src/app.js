@@ -71,8 +71,9 @@ const app = new Vue({
       bash: 0,
       html: 0,
       py: 0,
-      ansible: 0,
       sql: 0,
+      css: 0,
+      go: 0,
       recentValidCharacters: 0,
       totalValidCharacters: 0,
       totalValidCommands: 0
@@ -219,6 +220,10 @@ const app = new Vue({
       let htmlCommon = filterCmds(cmds.cmdsByLang.html.commonCmds);
       let sqlAll = filterCmds(cmds.cmdsByLang.sql.cmds);
       let sqlCommon = cmds.cmdsByLang.sql.commonCmds;
+      let cssAll = filterCmds(cmds.cmdsByLang.css.cmds);
+      let cssCommon = cmds.cmdsByLang.css.commonCmds;
+      let goAll = filterCmds(cmds.cmdsByLang.go.cmds);
+      let goCommon = cmds.cmdsByLang.go.commonCmds;
 
       let cn = config.GOLDEN_CMDS_COMMON_PER_LANG;
       let rn = config.GOLDEN_CMDS_RANDOM_PER_LANG;
@@ -239,6 +244,12 @@ const app = new Vue({
         ),
         sql: _.sampleSize(sqlCommon, cn).concat(
           _.sampleSize(_.xor(sqlCommon, sqlAll), rn)
+        ),
+        css: _.sampleSize(cssCommon, cn).concat(
+          _.sampleSize(_.xor(cssCommon, cssAll), rn)
+        ),
+        go: _.sampleSize(goCommon, cn).concat(
+          _.sampleSize(_.xor(goCommon, goAll), rn)
         )
       };
 
@@ -247,7 +258,9 @@ const app = new Vue({
         goldenCommands.js,
         goldenCommands.py,
         goldenCommands.html,
-        goldenCommands.sql
+        goldenCommands.sql,
+        goldenCommands.css,
+        goldenCommands.go
       );
 
       return goldenCommands;
@@ -294,12 +307,25 @@ const app = new Vue({
 
       // title of fifth lang
       out += cmds.sql().name.padEnd(halfScreen);
-      out += cmds.ps().name + "\n";
+      out += cmds.css().name + "\n";
 
-      // interleave commands of fifth and sixth langs (sql and microsoft)
-      out += _.zip(goldCmds.sql.map(c => ` - ${c}`.padEnd(halfScreen)))
+      // interleave commands of fifth and sixth langs
+      out += _.zip(
+        goldCmds.sql.map(c => ` - ${c}`.padEnd(halfScreen)),
+        goldCmds.css.map(c => `${` - ${c}`.padEnd(halfScreen)}\n`)
+      )
         .map(cs => cs.join(""))
         .join("");
+
+      out += "\n";
+
+      // title of seventh lang
+      out += cmds.go().name + "\n";
+
+      // commands of seventh lang
+      goldCmds.go.forEach(c => {
+        out += ` - ${c}\n`;
+      });
 
       return out;
     },
@@ -387,6 +413,9 @@ const app = new Vue({
       this.count.bash = 0;
       this.count.html = 0;
       this.count.py = 0;
+      this.count.sql = 0;
+      this.count.css = 0;
+      this.count.go = 0;
       this.count.recentValidCharacters = 0;
       this.count.totalValidCharacters = 0;
       this.count.totalValidCommands = 0;

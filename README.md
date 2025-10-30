@@ -76,7 +76,7 @@ See files `from-sql-base.txt` and `from-postgres-doc.txt` for all the available 
 
 The sources for CSS commands and keywords used are taken from MDN Web Docs [CSS reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference).
 
-# Go
+### Go
 
 The sources for Go commands and keywords used are taken from the official Go documentation [Go keywords](https://golang.org/ref/spec#Keywords) and [Go built-in functions](https://pkg.go.dev/builtin).
 

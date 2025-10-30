@@ -5,13 +5,17 @@ import jsCmds from "../assets/cmds/js.js";
 import pyCmds from "../assets/cmds/python.js";
 import htmlCmds from "../assets/cmds/html.js";
 import sqlCmds from "../assets/cmds/sql.js";
+import cssCmds from "../assets/cmds/css.js";
+import goCmds from "../assets/cmds/go.js";
 
 const allCmds = _.union(
   bash().cmds,
   js().cmds,
   py().cmds,
   html().cmds,
-  sql().cmds
+  sql().cmds,
+  css().cmds,
+  go().cmds
 );
 
 export const cmdsByLang = {
@@ -19,7 +23,9 @@ export const cmdsByLang = {
   js: js(),
   py: py(),
   html: html(),
-  sql: sql()
+  sql: sql(),
+  css: css(),
+  go: go()
 };
 
 export function all() {
@@ -44,6 +50,14 @@ export function html() {
 
 export function sql() {
   return sqlCmds;
+}
+
+export function css() {
+  return sqlCmds;
+}
+
+export function go() {
+  return goCmds;
 }
 
 export function longest() {

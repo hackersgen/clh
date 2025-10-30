@@ -79,11 +79,11 @@ const states = {
       await sleep(1000);
 
       app.cmd = "LOADING...\n\n";
-      app.cmd += "WELCOME!\n\n";
+      app.cmd += "SYSTEM ONLINE!\n\n";
       app.cmd += "COMMANDS:\n";
       app.cmd += "- PLAY\n";
-      app.cmd += "- LEADERBOARD\n\n";
-      app.cmd += "TYPE:\n";
+      app.cmd += "- LEADERBOARD\n";
+      app.cmd += "- HELP\n";
 
       await camTween;
 
@@ -96,7 +96,8 @@ const states = {
       await sleep(app.typingTime(app.cmd));
 
       app.onResult = async result => {
-        if (result.cmd.toLowerCase() === "play") {
+        let command = result.cmd.toLowerCase().trim();
+        if (command === "play") {
           app.onResult = _.noop();
           app.allowTyping = false;
           app.showTitle = false;
@@ -105,7 +106,7 @@ const states = {
           sfx.menuMusic.fade(sfx.menuMusic.originalVolume, 0, 600);
           await sleep(200);
           app.toState(STATES.play);
-        } else if (result.cmd.toLowerCase() === "leaderboard") {
+        } else if (command === "leaderboard") {
           app.onResult = _.noop();
           app.allowTyping = false;
           app.showTitle = false;
@@ -114,8 +115,14 @@ const states = {
           sfx.menuMusic.fade(sfx.menuMusic.originalVolume, 0, 600);
           await sleep(200);
           app.toState(STATES.leaderboard);
+        } else if (command === "help") {
+          app.cmd += "\n\nCOMMANDS:\n";
+          app.cmd += "- PLAY\n";
+          app.cmd += "- LEADERBOARD\n";
+          app.cmd += "- HELP\n\n";
+          await sleep(200);
         } else {
-          app.cmd += "\nTYPE:\n";
+          app.cmd += "\nWRONG COMMAND\n";
         }
       };
 
@@ -217,6 +224,8 @@ of the following:
 - Python keywords, objects, functions
 - HTML5 standard tags
 - SQL keywords, objects, functions
+- CSS properties, selectors, functions
+- Go keywords, types, built-ins
 
 Press Enter to continue.`;
 
@@ -788,7 +797,9 @@ function deriveTribe() {
     { tribe: "Python", count: app.count.py },
     { tribe: "JavaScript", count: app.count.js },
     { tribe: "HTML", count: app.count.html },
-    { tribe: "SQL", count: app.count.sql }
+    { tribe: "SQL", count: app.count.sql },
+    { tribe: "CSS", count: app.count.css },
+    { tribe: "Go", count: app.count.go }
   ];
 
   const tribesSorted = _.reverse(_.sortBy(cmdCounts, "count"));
