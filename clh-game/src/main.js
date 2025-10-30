@@ -68,6 +68,7 @@ const states = {
         },
         duration: 4000
       });
+
       // wait a short time so the CLH test pattern can be seen, then start drawing the console
       await sleep(300);
       app.updateConsole = app.writeToConsole;
@@ -77,9 +78,12 @@ const states = {
       // let the camera zoom in for a while before moving on to displaying text on screen
       await sleep(1000);
 
-      app.cmd = "LOADING...";
-      app.cmd += "\n\nTESTING ROUTINE\nINITIATED.";
-      app.cmd += "\n\nType PLAY OR LEADERBOARD to continue.";
+      app.cmd = "LOADING...\n\n";
+      app.cmd += "WELCOME!\n\n";
+      app.cmd += "COMMANDS:\n";
+      app.cmd += "- PLAY\n";
+      app.cmd += "- LEADERBOARD\n\n";
+      app.cmd += "TYPE:\n";
 
       await camTween;
 
@@ -111,7 +115,7 @@ const states = {
           await sleep(200);
           app.toState(STATES.leaderboard);
         } else {
-          app.cmd += "\nType PLAY OR LEADERBOARD:\n";
+          app.cmd += "\nTYPE:\n";
         }
       };
 

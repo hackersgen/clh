@@ -95,6 +95,7 @@ textarea#cmd {
   transition: opacity 100ms linear;
   width: 100%;
 }
+
 #title-screen > *.show {
   opacity: 1;
   transition: opacity 1800ms linear;
@@ -104,7 +105,7 @@ textarea#cmd {
   opacity: 0;
   transition: opacity 100ms linear;
   position: absolute;
-  top: 10vh;
+  top: 8vh;
   left: 10vw;
   width: 40vw;
   height: 70vh;
@@ -115,18 +116,6 @@ textarea#cmd {
 }
 #title-screen.show {
   opacity: 1;
-}
-
-#dev-credits {
-  font-size: 0.8em;
-  color: var(--clh-white);
-  display: none;
-}
-
-#soundtrack-credits {
-  font-size: 0.8em;
-  color: var(--clh-white);
-  display: none;
 }
 
 /* delay the reveal of each title screen element so the reveals cacade down the screen */
@@ -161,36 +150,37 @@ textarea#cmd {
   transition-delay: calc(6 * var(--title-reveal-interval));
 }
 
+#title-screen.show p {
+  opacity: 1;
+  transform: none;
+}
+
+#title-screen p {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s ease;
+}
+
+#title-screen.show img {
+  opacity: 1;
+  transform: none;
+}
+
+#title-screen img {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.5s ease;
+}
+
 /* individual elements of the title screen */
 #langs {
-  text-align: center;
   color: var(--clh-yellow-light);
   font-family: overpass-mono;
+  font-size: 0.8em;
 }
 
 #langs .sep {
   color: var(--clh-white);
-}
-
-#dev-listen {
-  font-size: 0.7em;
-  color: var(--clh-white);
-}
-
-#soundtrack-listen {
-  font-size: 0.7em;
-  color: var(--clh-white);
-}
-
-#clh-logo {
-  width: 70%;
-  margin: auto;
-}
-
-#hg-logo {
-  width: 70%;
-  margin: auto;
-  margin-bottom: 20px;
 }
 
 #intro {
@@ -222,12 +212,36 @@ textarea#cmd {
   opacity: 1;
 }
 
-#intro .logo {
+.logo-loading {
   display: block;
   clear: both;
   max-width: 100%;
   width: 600px;
   margin-bottom: 10vh;
+}
+
+.logo-title {
+  max-width: 70%;
+  width: 400px;
+  margin: auto;
+  margin-bottom: 3vh;
+}
+
+/* Title credits */
+
+.credits {
+  font-size: 0.8em;
+  color: var(--clh-white);
+}
+
+.credits a {
+  color: var(--clh-orange-light);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.credits a:visited {
+  color: var(--clh-orange-light);
 }
 
 @keyframes blink {
