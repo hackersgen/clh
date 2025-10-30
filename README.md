@@ -13,6 +13,8 @@ It's a speed game where you make point every time you type a commands or keyword
 - javascript
 - html
 - SQL
+- CSS
+- Go
 
 ## How to run locally
 
@@ -41,7 +43,7 @@ Then, set it as a GitHub secret named `DOCKERHUB_TOKEN` inside the repository se
 
 ## Available Languages
 
-Original languages already present in the original RedHat game
+Languages already present in the original RedHat game:
 
 - Bash
 - HTML

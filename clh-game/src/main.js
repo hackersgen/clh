@@ -208,11 +208,11 @@ const states = {
         app.cmd = `You have ${config.GAME_DURATION / 1000} seconds to enter ANY
 of the following:
 
-- Bash shell commands & Linux built-ins
+- Bash shell commands 
 - JavaScript keywords, objects, functions
 - Python keywords, objects, functions
-- HTML5 tags and Ansible modules
-- SQL keywords, object, functions
+- HTML5 standard tags
+- SQL keywords, objects, functions
 
 Press Enter to continue.`;
 
