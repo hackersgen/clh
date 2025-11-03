@@ -40,6 +40,11 @@ let isLowFPS = false;
 window.isLowFPS = isLowFPS;
 t = previousTime = performance.now();
 
+var scale = "scale(1)";
+document.body.style.webkitTransform = scale; // Chrome, Opera, Safari
+document.body.style.msTransform = scale; // IE 9
+document.body.style.transform = scale; // Genera
+
 const states = {
   [STATES.title]: {
     enter: async function() {
@@ -79,11 +84,8 @@ const states = {
       await sleep(1000);
 
       app.cmd = "LOADING...\n\n";
+      app.cmd += "TESTING ROUTINE...\n\n";
       app.cmd += "SYSTEM ONLINE!\n\n";
-      app.cmd += "COMMANDS:\n";
-      app.cmd += "- PLAY\n";
-      app.cmd += "- LEADERBOARD\n";
-      app.cmd += "- HELP\n";
 
       await camTween;
 
@@ -91,7 +93,7 @@ const states = {
 
       app.showTitle = true;
 
-      app.cmd += "\n> ";
+      app.cmd += "> ";
 
       await sleep(app.typingTime(app.cmd));
 

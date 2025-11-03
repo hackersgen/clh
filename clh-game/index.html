@@ -23,7 +23,7 @@
       <div id="title-screen" v-bind:class="{ show: showTitle }">
         <img class="logo-title" src="./assets/images/hackersgen-logo.png" />
         <img class="logo-title" src="./assets/clh-logo-white.svg" />
-        <p id="instructions">
+        <p class="text-title">
           Test your command line skills!<br />
           You have {{parseInt(gameDuration/1000)}} seconds to type commands
           from:
@@ -32,13 +32,12 @@
           HTML &middot; CSS &middot; JS &middot; BASH &middot; PYTHON &middot;
           SQL &middot; GO
         </p>
-        <p id="tagline">
-          Set the terminal on fire! Type "PLAY" to begin or "LEADERBOARD" to see
-          your highscores!
+        <p class="text-title">
+          Type "PLAY" to begin or "LEADERBOARD" to see your highscores.
         </p>
         <p class="credits">
-          Forked and customized with ♥ by the
-          <a href="https://github.com/hackersgen">HackersGen Team</a>
+          Forked and customized with ❤️ by the
+          <a href="https://github.com/hackersgen">HackersGen Team</a><br />
           from the original
           <a href="https://github.com/CommandLineHeroes/clh-bash">
             RedHat game
