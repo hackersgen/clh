@@ -89,6 +89,17 @@ const states = {
 
       await camTween;
 
+      // Test server connection
+      fetch(config.BACKEND_URL, { method: "GET" })
+        .then(res => {
+          if (!res.ok) {
+            console.warn("Game server not reachable");
+          }
+        })
+        .catch(_ => {
+          console.warn("Game server not reachable");
+        });
+
       sfx.menuMusic.play();
 
       app.showTitle = true;
