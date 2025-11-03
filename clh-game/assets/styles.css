@@ -3,9 +3,8 @@
 html,
 body {
   zoom: 1;
-  height: 100%;
-  padding: 0;
   margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 
@@ -111,8 +110,6 @@ textarea#cmd {
   width: 40vw;
   height: 70vh;
   display: grid;
-  font-size: 1.2em;
-  font-weight: bold;
 }
 
 #title-screen.show {
@@ -177,8 +174,9 @@ textarea#cmd {
 #langs {
   color: var(--clh-yellow-light);
   font-family: overpass-mono;
-  font-size: 1em;
+  font-size: 1.5rem;
   text-align: center;
+  font-weight: bold;
 }
 
 #langs .sep {
@@ -232,14 +230,16 @@ textarea#cmd {
 }
 
 .text {
-  font-size: 1em;
+  font-size: 1.5rem;
   text-align: center;
+  font-weight: bold;
 }
 
 .credits {
-  font-size: 0.8em;
+  font-size: 1.2rem;
   color: var(--clh-white);
   text-align: center;
+  font-weight: bold;
 }
 
 .credits a {

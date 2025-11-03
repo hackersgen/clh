@@ -40,10 +40,32 @@ let isLowFPS = false;
 window.isLowFPS = isLowFPS;
 t = previousTime = performance.now();
 
-var scale = "scale(1)";
-document.body.style.webkitTransform = scale; // Chrome, Opera, Safari
-document.body.style.msTransform = scale; // IE 9
-document.body.style.transform = scale; // Genera
+// Add zoom prevention
+function resetZoom() {
+  document.body.style.zoom = "1";
+}
+
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey || e.metaKey) && ["+", "-", "0"].includes(e.key)) {
+    e.preventDefault();
+    resetZoom();
+  }
+});
+
+window.addEventListener(
+  "wheel",
+  e => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+      resetZoom();
+    }
+  },
+  { passive: false }
+);
+
+window.addEventListener("resize", resetZoom);
+
+resetZoom();
 
 const states = {
   [STATES.title]: {
@@ -84,7 +106,7 @@ const states = {
       await sleep(1000);
 
       app.cmd = "LOADING...\n\n";
-      app.cmd += "TESTING ROUTINE...\n\n";
+      app.cmd += "TESTING ROUTINE\n\n";
       app.cmd += "SYSTEM ONLINE!\n\n";
 
       await camTween;
