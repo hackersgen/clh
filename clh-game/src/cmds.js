@@ -53,7 +53,7 @@ export function sql() {
 }
 
 export function css() {
-  return sqlCmds;
+  return cssCmds;
 }
 
 export function go() {
